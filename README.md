@@ -58,6 +58,19 @@ def generate_log_entry():
     action = random.choice(actions)
     return f"[{timestamp}] SEVERITY={'HIGH' if 'FAILED' in action or 'UNAUTHORIZED' in action else 'INFO'} user={user} src_ip={ip} action={action}\n"
 
+## Threat Detection Engineering & Correlation Rules
+
+Once logs are ingested and parsed under the `security_events` source type, correlation searches are used to surface active threats.
+
+### Brute-Force Authentication Detection
+To detect potential credential-stuffing or brute-force attacks where a single user account is targeted repeatedly from a specific source IP (crossing a threshold of `count > 2`), the following SPL query is executed:
+
+```spl
+sourcetype="security_events" action="LOGIN_FAILED" 
+| stats count by user, src_ip 
+| where count > 2 
+| sort - count
+
 if __name__ == "__main__":
     with open("security_events.log", "w") as f:
         for _ in range(50):
