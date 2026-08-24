@@ -1,0 +1,78 @@
+# Enterprise SIEM & Log Analysis Lab (Splunk Enterprise & Docker)
+
+## Overview
+A lightweight, containerized Security Information and Event Management (SIEM) architecture deployed to simulate enterprise-grade security monitoring, log ingestion, and threat detection analysis while bypassing local resource bottlenecks.
+
+## Architecture & Tech Stack
+* **Containerization:** Docker Desktop (WSL 2 backend for host kernel isolation)
+* **SIEM Platform:** Splunk Enterprise (Latest)
+* **Threat Simulation:** Python 3 (Custom Telemetry Generator)
+* **Host Environment:** Windows / Linux WSL 2 integration
+
+---
+
+## Deployment Procedure
+
+### Step 1: Pull the Container Image
+Download the official enterprise image from the container registry:
+\`\`\`bash
+docker pull splunk/splunk:latest
+\`\`\`
+
+### Step 2: Initialize the Enterprise Instance with Compliance Flags
+Deploy the container with the required environment variables, license acceptance terms, and local port mappings:
+\`\`\`bash
+docker run -d -p 8000:8000 -e "SPLUNK_GENERAL_TERMS=--accept-sgt-current-at-splunk-com" -e "SPLUNK_START_ARGS=--accept-license" -e "SPLUNK_PASSWORD=splunk123" --name splunk-enterprise splunk/splunk:latest
+\`\`\`
+
+### Step 3: Verify Initialization Logs
+Track the internal container boot sequence to ensure the web server daemon has fully initialized:
+\`\`\`bash
+docker logs -f splunk-enterprise
+\`\`\`
+
+### Step 4: Access the Management Console
+Navigate to your local instance in your browser and authenticate:
+* **URL:** `http://localhost:8000`
+* **Username:** `admin`
+* **Password:** `splunk123`
+
+---
+
+## Threat Simulation & Telemetry Ingestion
+To test alerting, parsing, and dashboard visualization capabilities without relying on static files, a custom Python log generator script (`log_simulator.py`) was built to simulate mock enterprise authentication events.
+
+### 1. The Simulation Script (`log_simulator.py`)
+```python
+import datetime
+import random
+
+users = ["admin", "jsmith", "bwayne", "tstark", "service_account"]
+source_ips = ["192.168.1.50", "10.0.0.15", "172.16.4.22", "203.0.113.5"]
+actions = ["LOGIN_SUCCESS", "LOGIN_FAILED", "PASSWORD_RESET", "UNAUTHORIZED_ACCESS_ATTEMPT"]
+
+def generate_log_entry():
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    user = random.choice(users)
+    ip = random.choice(source_ips)
+    action = random.choice(actions)
+    return f"[{timestamp}] SEVERITY={'HIGH' if 'FAILED' in action or 'UNAUTHORIZED' in action else 'INFO'} user={user} src_ip={ip} action={action}\n"
+
+## Threat Detection Engineering & Correlation Rules
+
+Once logs are ingested and parsed under the `security_events` source type, correlation searches are used to surface active threats.
+
+### Brute-Force Authentication Detection
+To detect potential credential-stuffing or brute-force attacks where a single user account is targeted repeatedly from a specific source IP (crossing a threshold of `count > 2`), the following SPL query is executed:
+
+```spl
+sourcetype="security_events" action="LOGIN_FAILED" 
+| stats count by user, src_ip 
+| where count > 2 
+| sort - count
+
+if __name__ == "__main__":
+    with open("security_events.log", "w") as f:
+        for _ in range(50):
+            f.write(generate_log_entry())
+    print("Generated 50 simulated security log entries in security_events.log")
