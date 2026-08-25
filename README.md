@@ -81,3 +81,16 @@ To transition from passive log monitoring to active incident response, this repo
 python soar_enrichment.py
 ```
 
+## Module 3: Executive Compliance & Metrics Reporting Engine
+To bridge technical security events with business value, this repository includes an automated compliance reporter (`compliance_reporter.py`) that aggregates operational metrics and maps them directly to recognized frameworks like NIST CSF v2.0 and CIS Controls v8.
+
+### Architecture & Workflow
+* **Data Aggregation:** Scans SIEM logs and SOAR incident artifacts to calculate total events processed, high-severity threats identified, and automated containments executed.
+* **Framework Alignment:** Synthesizes operational data into core security functions (Detect, Respond) to demonstrate governance readiness.
+* **Executive Artifact Output:** Generates an immutable, structured JSON compliance report (`executive_compliance_report.json`) tailored for C-level stakeholders and auditors.
+
+### Running the Compliance Reporter
+```bash
+python compliance_reporter.py
+```
+
