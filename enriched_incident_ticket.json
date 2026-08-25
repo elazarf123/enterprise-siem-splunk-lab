@@ -1,6 +1,6 @@
 {
     "alert": {
-        "timestamp": "2026-08-24 21:31:20",
+        "timestamp": "2026-08-24 21:42:08",
         "user": "admin",
         "source_ip": "185.220.101.5",
         "action": "UNAUTHORIZED_ACCESS_ATTEMPT",
@@ -15,5 +15,5 @@
         "totalReports": 1420
     },
     "automation_verdict": "CONTAINMENT_RECOMMENDED: Auto-blocking IP at firewall and escalating ticket severity.",
-    "processed_timestamp": "2026-08-24 21:31:20"
+    "processed_timestamp": "2026-08-24 21:42:08"
 }
