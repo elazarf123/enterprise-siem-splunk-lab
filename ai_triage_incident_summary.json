@@ -1,0 +1,8 @@
+{
+    "timestamp": "2026-08-26 10:18:22",
+    "analyst_interface": "AI-Augmented Natural Language Assistant",
+    "intent_classification": "Credential Access / Brute-Force",
+    "mitre_att_ck_mapping": "T1110 - Brute Force",
+    "ai_generated_summary": "High-confidence brute-force pattern detected targeting administrative service accounts. Source IP telemetry indicates external origin with recurring failed authentication states crossing the threshold velocity.",
+    "recommended_action": "Execute automated SOAR playbook for IP containment and firewall block."
+}
