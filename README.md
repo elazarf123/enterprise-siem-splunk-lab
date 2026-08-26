@@ -212,3 +212,10 @@ python compliance_reporter.py
 }
 ```
 
+
+---
+
+## 🤖 Module 4: AI-Augmented SOC Triage & Threat Hunting
+Simulates the integration of generative AI and natural language assistants within a modern Security Operations Center. 
+* **Script:** i_triage_simulator.py translates plain-English security intents into production-grade SPL queries and generates structured AI incident summaries (i_triage_incident_summary.json).
+* **Article Guide:** AI_SOC_HUNTING_GUIDE.md details best practices for operationalizing SIEM assistants, data governance, and maintaining human-in-the-loop validation to lower MTTR.
