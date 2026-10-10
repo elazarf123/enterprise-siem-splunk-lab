@@ -4,12 +4,13 @@ import datetime
 incoming_alert = {
     "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
     "user": "admin",
-    "source_ip": "185.220.101.5",
-    "action": "UNAUTHORIZED_ACCESS_ATTEMPT",
+    "source_ip": "203.0.113.5",
+    "action": "LOGIN_FAILED",
     "severity": "HIGH"
 }
 
 def query_abuseipdb(ip_address):
+    # Mocked response shaped like AbuseIPDB; no API call is made.
     print(f"[*] SOAR Pipeline: Intercepted alert for IP {ip_address}")
     print("[*] SOAR Pipeline: Querying Threat Intelligence API (AbuseIPDB)...")
     return {
@@ -34,7 +35,7 @@ def run_soar_playbook():
     print(f"[*] Threat Intel Verdict: Abuse Confidence Score = {score}%")
     
     if score > 75:
-        action_taken = "CONTAINMENT_RECOMMENDED: Auto-blocking IP at firewall and escalating ticket severity."
+        action_taken = "CONTAINMENT_RECOMMENDED: Block IP at firewall and escalate ticket (recommendation only; no action is taken)."
     else:
         action_taken = "MONITOR: Score below threshold, logging event for review."
         

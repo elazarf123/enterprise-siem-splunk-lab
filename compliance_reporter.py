@@ -8,6 +8,12 @@ def generate_compliance_report():
     print("--------------------------------------------------")
     
     # Load recent ticket data if available
+    events_file = "security_events.log"
+    total_events = 0
+    if os.path.exists(events_file):
+        with open(events_file, "r") as f:
+            total_events = sum(1 for line in f if line.strip())
+
     ticket_file = "enriched_incident_ticket.json"
     incident_count = 0
     high_severity_count = 0
@@ -26,19 +32,17 @@ def generate_compliance_report():
         "report_metadata": {
             "framework_alignment": "NIST CSF v2.0 / CIS Controls v8",
             "generated_timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "reporting_period": "Continuous Monitoring Live Feed"
+            "reporting_period": "Lab sample run"
         },
         "operational_metrics": {
-            "total_security_events_processed": 50,
+            "total_security_events_processed": total_events,
             "automated_incidents_triaged": incident_count,
             "high_severity_threats_identified": high_severity_count,
-            "automated_containment_actions": mitigated_count,
-            "analyst_time_saved_hours": 4.5
+            "containment_recommendations": mitigated_count
         },
-        "compliance_status": {
-            "detect_function_status": "OPTIMIZED (SPL Correlation Active)",
-            "respond_function_status": "AUTOMATED (SOAR API Enrichment Active)",
-            "audit_trail_integrity": "VERIFIED (Immutable JSON Artifacts Logged)"
+        "framework_mapping": {
+            "NIST_CSF_v2": ["DE.CM (Continuous Monitoring)", "RS.AN (Incident Analysis)"],
+            "CIS_Controls_v8": ["Control 8 (Audit Log Management)", "Control 17 (Incident Response Management)"]
         }
     }
     
