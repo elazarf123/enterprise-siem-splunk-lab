@@ -1,19 +1,19 @@
 {
     "alert": {
-        "timestamp": "2026-08-24 21:42:08",
+        "timestamp": "2026-10-10 23:14:28",
         "user": "admin",
-        "source_ip": "185.220.101.5",
-        "action": "UNAUTHORIZED_ACCESS_ATTEMPT",
+        "source_ip": "203.0.113.5",
+        "action": "LOGIN_FAILED",
         "severity": "HIGH"
     },
     "threat_intel": {
-        "ipAddress": "185.220.101.5",
+        "ipAddress": "203.0.113.5",
         "isPublic": true,
         "abuseConfidenceScore": 98,
         "country": "RE",
         "usageType": "Data Center/Web Hosting/Tor",
         "totalReports": 1420
     },
-    "automation_verdict": "CONTAINMENT_RECOMMENDED: Auto-blocking IP at firewall and escalating ticket severity.",
-    "processed_timestamp": "2026-08-24 21:42:08"
+    "automation_verdict": "CONTAINMENT_RECOMMENDED: Block IP at firewall and escalate ticket (recommendation only; no action is taken).",
+    "processed_timestamp": "2026-10-10 23:14:28"
 }
